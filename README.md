@@ -1,4 +1,4 @@
-# Candela
+# Remote-Nurse
 Hypertension Risk Monitoring App
 This app is designed to make it easy to remotely monitor a patient's risk for hypertension. It uses simulated data for demonstration purposes, but the ultimate goal is to link it to a Bluetooth bracelet that will transmit real-time blood pressure data to the app.
 
