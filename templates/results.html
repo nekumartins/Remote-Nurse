@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hypertension Risk Assessment Results</title>
+    <style>
+      body {
+        background-color: #f1f1f1;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }  header {
+    background-color: #0077b6;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+  }
+  
+  h1 {
+    font-size: 32px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 20px;
+    text-align: center;
+  }
+  
+  .container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 600px;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .bmi {
+    font-size: 18px;
+    margin: 20px;
+    text-align: center;
+  }
+  
+  .bmi-category {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  footer {
+    background-color: #0077b6;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Hypertension Risk Assessment Results</h1>
+  </header>
+  <div class="container">
+    <p>Your hypertension risk is: {{ hypertension_risk }}</p>
+    {% if hypertension_risk == 0 %}
+      <p>Congratulations! Your risk for hypertension is low.</p>
+    {% elif hypertension_risk == 1 %}
+      <p>Your risk for hypertension is moderate. Please consider making some lifestyle changes to reduce your risk.</p>
+    {% else %}
+      <p>Your risk for hypertension is high. We strongly recommend that you consult with your doctor for further evaluation and treatment options.</p>
+    {% endif %}  <div>
+        <h2>Your BMI category is:</h2>
+        <p class="bmi">Underweight: BMI &lt; 18.5</p>
+        <p class="bmi">Normal: 18.5 ≤ BMI ≤ 24.9</p>
+        <p class="bmi">Overweight: 25.0 ≤ BMI ≤ 29.9</p>
+        <p class="bmi">Obese class I: 30.0 ≤ BMI ≤ 34.9</p>
+        <p class="bmi">Obese class II: 35.0 ≤ BMI ≤ 39.9</p>
+        <p class="bmi">Obese class III: BMI ≥ 40.0</p>
+        <p class="bmi-category">Your BMI category is: {{ bmi_category }}</p>
+      </div>
+    </div>
+    
+    <footer>
+      <p>Thank you for using our hypertension risk assessment tool.</p>
+    </footer>
+</body>
+</html>

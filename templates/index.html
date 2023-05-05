@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hypertension Detection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+      body {
+        background-image: url("https://images.unsplash.com/photo-1593187912762-171d8f26eb91");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        color: #333333;
+        font-family: Arial, sans-serif;
+      }  .container {
+    padding: 2em;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-top: 2em;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  h1 {
+    font-size: 3em;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+  
+  p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-bottom: 2em;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid black;
+  }
+
+  th {
+    background-color: #8ab8e6;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .self-check-button {
+    background-color: #8ab8e6;
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    border-radius: 5px;
+    font-size: 1.2em;
+    margin-top: 2em;
+    float: right;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .self-check-button:hover {
+    background-color: #5e94c5;
+  }
+  
+  h2 {
+    font-size: 2em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
+  
+  ul {
+    margin-bottom: 2em;
+  }
+  
+  li {
+    font-size: 1.2em;
+    line-height: 1.5;
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
+  
+  @media screen and (max-width: 768px) {
+    h1 {
+      font-size: 2em;
+    }
+    
+    p {
+      font-size: 1em;
+    }
+    
+    table {
+      font-size: 0.8em;
+    }
+    
+    .self-check-button {
+      font-size: 1em;
+    }
+    
+    h2 {
+      font-size: 1.5em;
+    }
+    
+    li {
+      font-size: 1em;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hypertension Detection</h1>
+    <p>
+      The following individuals are at risk of hypertension based on their
+      health parameters:
+    </p>
+    <table>
+      <tr>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Medical History</th>
+        <th>Systolic BP</th>
+        <th>Diastolic BP</th>
+        <th>Heart Rate</th>
+        </tr>
+        {% for person in hypertension %}
+        <tr>
+        <td>{{ person.age }}</td>
+        <td>{{ "Male" if person.gender == 0 else "Female" }}</td>
+        <td>{{ "Yes" if person.med_history >= 2 else "No" }}</td>
+        <td>{{ person.systolic_bp }}</td>
+        <td>{{ person.diastolic_bp }}</td>
+        <td>{{ person.heart_rate }}</td>
+        </tr>
+        {% endfor %}
+        </table>  <h2>Hypertension Risk Factors</h2>
+        <p>
+          Hypertension is a condition characterized by elevated blood pressure. The
+          following factors contribute to hypertension risk:
+        </p>
+        <ul>
+          <li>Age</li>
+          <li>Gender</li>
+          <li>Medical History</li>
+          <li>Blood Pressure</li>
+          <li>Heart Rate</li>
+        </ul>
+        
+        <h2>Reducing Hypertension Risk</h2>
+        <p>
+          There are several steps that can be taken to reduce hypertension risk,
+          including:
+        </p>
+        <ul>
+          <li>Regular exercise</li>
+          <li>Healthy diet</li>
+          <li>Weight management</li>
+          <li>Reducing sodium intake</li>
+          <li>Limiting alcohol consumption</li>
+          <li>Managing stress</li>
+          <li>Smoking cessation</li>
+        </ul>
+        
+        <button class="self-check-button"><a href="/home">Self Check</a></button>
+      </div>
+      
+      <footer class="bg-dark text-white py-3">
+        <div class="container">
+          <div class="row">
+          <div class="col-md-6">
+              <h3>About Us</h3>
+              <p>
+                Hypertension Detection is a website dedicated to helping individuals
+                detect hypertension and reduce their risk of developing it. Our mission
+                is to provide accurate and up-to-date information on hypertension risk
+                factors and prevention strategies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </body>
+    </html>      
