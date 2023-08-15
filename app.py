@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from cs50 import SQL
-from hypertension import detect_hypertension
-from data import *
-
-
+from hypertension import detect_hypertension, calculate_hypertension_risk
+import pandas as pd 
 import secrets
+
+
+hypertension_df = pd.read_csv("hypertension.csv")
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -19,6 +20,8 @@ def home():
         med_history = request.form.get("med_history")
         systolic_bp = request.form.get("systolic_bp")
         diastolic_bp = request.form.get("diastolic_bp")
+        weight = request.form.get("weight")
+        height = request.form.get("height")
 
         # Validate user input
         if not age or not gender or not med_history or not systolic_bp or not diastolic_bp:
@@ -49,8 +52,10 @@ def home():
 @app.route("/results")
 def results():
     # Get hypertension risk from database
-    hypertension_risk = db.execute("SELECT hypertension_risk FROM users ORDER BY id DESC LIMIT 1")[0]["hypertension_risk"]
-    return render_template("results.html", hypertension_risk=hypertension_risk)
+     #= db.execute("SELECT hypertension_risk FROM users ORDER BY id DESC LIMIT 1")[0]["hypertension_risk"]
+     
+    bmi_category, hypertension_risk = calculate_hypertension_risk(age, gender, height, weight, med_history, systolic_bp, diastolic_bp)
+    return render_template("results.html", hypertension_risk=hypertension_risk, bmi_category=bmi_category)
 
 
 
