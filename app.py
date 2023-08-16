@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-hypertension_df = pd.read_csv("hypertension.csv")
+hypertension_df = pd.read_csv("hypertension_data.csv")
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -101,7 +101,7 @@ def index():
     # Identify individuals at risk of hypertension
     hypertensions = []
 
-    for i in range(len(hypertension)):
+    for i in range(50):
         if predictions[i] == 1: 
             person = hypertension.iloc[i]  # Access the row using iloc
             hypertensions.append({"age": person['age'], "sex": person['sex'], "cp": person['cp'], "trestbps": person['trestbps'], "chol": person['chol'], "thalach": person['thalach']})
