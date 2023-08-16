@@ -1,48 +1,48 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from cs50 import SQL
-from hypertension import calculate_bmi_category
+from hypertension import calculate_bmi_category, detect_hypertension
 import pandas as pd 
 import secrets
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 
 hypertension_df = pd.read_csv("hypertension.csv")
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-db = SQL("sqlite:///hypertension.db")
+
+engine = create_engine("sqlite:///hypertension.db")
+db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
         # Get user input from the form
-        age = request.form.get("age")
-        gender = request.form.get("gender")
-        med_history = request.form.get("med_history")
-        systolic_bp = request.form.get("systolic_bp")
-        diastolic_bp = request.form.get("diastolic_bp")
-        weight = request.form.get("weight")
-        height = request.form.get("height")
+        age = int(request.form.get("age"))
+        gender = int(request.form.get("gender"))
+        cp = int(request.form.get("cp"))
+        trestbps = int(request.form.get("trestbps"))
+        chol = int(request.form.get("chol"))
+        fbs = int(request.form.get("fbs"))
+        thalach = int(request.form.get("thalach"))
+        exang = int(request.form.get("exang"))
+        oldpeak = float(request.form.get("oldpeak"))
+        thal = int(request.form.get("thal"))
+        height = int(request.form.get("height"))
+        weight = int(request.form.get("weight"))
 
         # Validate user input
-        if not age or not gender or not med_history or not systolic_bp or not diastolic_bp:
-            flash("Please fill out all fields.", "error")
-            return redirect(url_for("home"))
-
-        if not age.isdigit() or not systolic_bp.isdigit() or not diastolic_bp.isdigit():
-            flash("Please enter valid numeric data.", "error")
-            return redirect(url_for("home"))
-
-        if int(age) < 0 or int(age) > 120 or int(systolic_bp) < 0 or int(diastolic_bp) < 0:
+        if age < 0 or age > 120 or trestbps < 0 or chol < 0:
             flash("Please enter data within a reasonable range.", "error")
             return redirect(url_for("home"))
 
         # Calculate hypertension risk based on user input
-        hypertension_risk_threshold = (130, 80)
-        hypertension_risk = detect_hypertension(med_history, systolic_bp, diastolic_bp, hypertension_risk_threshold)
+        hypertension_risk = detect_hypertension(age, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal)
 
-        # Store user input and hypertension risk in database
-        db.execute("INSERT INTO users (age, gender, med_history, systolic_bp, diastolic_bp, hypertension_risk) VALUES (?, ?, ?, ?, ?, ?)", 
-                   age, gender, med_history, systolic_bp, diastolic_bp, hypertension_risk)
+        # Store user input and hypertension risk in the database
+        db.execute("INSERT INTO users (age, gender, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal, hypertension_risk) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                   age, gender, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal, hypertension_risk, height, weight)
+        db.commit()
 
         # Redirect to results page
         return redirect(url_for("results"))
@@ -51,15 +51,37 @@ def home():
 
 @app.route("/results")
 def results():
-    if request.method == 'POST':
-        height = float(request.form['height'])
-        weight = float(request.form['weight'])
+    # Retrieve user data from the database
+    user_data = db.execute("SELECT * FROM users ORDER BY id DESC LIMIT 1").fetchone()
 
-    bmi_category = calculate_bmi_category(height, weight)
+    if user_data is None:
+        flash("No user data found.", "error")
+        return redirect(url_for("home"))
 
-    return render_template('results.html',bmi_category=bmi_category)
+    # Get individual features from the user data
+    age = user_data.age
+    gender = "Male" if user_data.gender == 0 else "Female"
+    cp = user_data.cp
+    trestbps = user_data.trestbps
+    chol = user_data.chol
+    fbs = "Yes" if user_data.fbs == 1 else "No"
+    thalach = user_data.thalach
+    exang = "Yes" if user_data.exang == 1 else "No"
+    oldpeak = user_data.oldpeak
+    thal = user_data.thal
 
+    # Get hypertension risk prediction
+    hypertension_risk = user_data.hypertension_risk
 
+    height = user_data.height
+    weight = user_data.weight
+
+    # Get BMI category
+    bmi_category = calculate_bmi_category(height, weight) 
+
+    return render_template("results.html", age=age, gender=gender, cp=cp, trestbps=trestbps, chol=chol,
+                           fbs=fbs, thalach=thalach, exang=exang, oldpeak=oldpeak, thal=thal,
+                           hypertension_risk=hypertension_risk, bmi_category=bmi_category)
 
 
 
