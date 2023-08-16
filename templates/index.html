@@ -138,8 +138,6 @@
             <th>Fasting Blood Sugar</th>
             <th>Max Heart Rate</th>
             <th>Exercise Induced Angina</th>
-            <th>ST Depression</th>
-            <th>Thal</th>
           </tr>
           {% for person in hypertensions %}
           <tr>
@@ -151,8 +149,6 @@
             <td>{{ "Yes" if person.fbs == 1 else "No" }}</td>
             <td>{{ person.thalach }}</td>
             <td>{{ "Yes" if person.exang == 1 else "No" }}</td>
-            <td>{{ person.oldpeak }}</td>
-            <td>{{ person.thal }}</td>
           </tr>
           {% endfor %}
         </table>
@@ -171,8 +167,6 @@
           <li>Fasting Blood Sugar</li>
           <li>Max Heart Rate</li>
           <li>Exercise Induced Angina</li>
-          <li>ST Depression</li>
-          <li>Thal</li>
         </ul>
        
         <h2>Reducing Hypertension Risk</h2>
