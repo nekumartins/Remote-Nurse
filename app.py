@@ -51,11 +51,7 @@ def home():
 
 @app.route("/results")
 def results():
-    # Get hypertension risk from database
-     #= db.execute("SELECT hypertension_risk FROM users ORDER BY id DESC LIMIT 1")[0]["hypertension_risk"]
-     
-    bmi_category, hypertension_risk = calculate_hypertension_risk(age, gender, height, weight, med_history, systolic_bp, diastolic_bp)
-    return render_template("results.html", hypertension_risk=hypertension_risk, bmi_category=bmi_category)
+    ...
 
 
 

@@ -40,7 +40,7 @@ def home():
 
         bmi_category = calculate_bmi_category(height, weight)
 
-        return render_template('results.html', hypertension_risk=hypertension_risk, bmi_category=bmi_category)
+        return render_template('results.html',bmi_category=bmi_category)
 
     return render_template('index.html')
 
