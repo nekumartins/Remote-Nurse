@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from hypertension import calculate_bmi_category, detect_hypertension
 import pandas as pd 
 import secrets
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 
 hypertension_df = pd.read_csv("hypertension_data.csv")
@@ -11,8 +12,30 @@ hypertension_df = pd.read_csv("hypertension_data.csv")
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = 'users'
+    
+    id = Column(Integer, primary_key=True)
+    age = Column(Integer)
+    gender = Column(Integer)
+    cp = Column(Integer)
+    trestbps = Column(Integer)
+    chol = Column(Integer)
+    fbs = Column(Integer)
+    thalach = Column(Integer)
+    exang = Column(Integer)
+    oldpeak = Column(Float)
+    thal = Column(Integer)
+    hypertension_risk = Column(Integer)
+    height = Column(Integer)
+    weight = Column(Integer)
+
 engine = create_engine("sqlite:///hypertension.db")
 db = scoped_session(sessionmaker(bind=engine))
+
+Base.metadata.create_all(engine)
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
