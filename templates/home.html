@@ -76,25 +76,58 @@
   <form method="POST" action="{{ url_for('home') }}">
     <label for="age">Age:</label>
     <input type="text" id="age" name="age" value="{{ request.form.age }}" /><br /><br />
+
+    <label for="height">Height:</label>
+  <input type="text" id="height" name="height" value="{{ request.form.height }}" /><br /><br />
+    
+  <label for="weight">Weight:</label>
+  <input type="text" id="weight" name="weight" value="{{ request.form.weight }}" /><br /><br />
+
     <label for="gender">Gender:</label>
     <select id="gender" name="gender">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
+      <option value="0">Male</option>
+      <option value="1">Female</option>
     </select><br /><br />
-    <label for="med_history">Family History / Past Complications:</label><br />
-    <select id="med_history" name="med_history">
-      <option value="no">No</option>
-      <option value="yes">Yes</option>
+    
+    <label for="cp">Chest Pain Type:</label>
+    <select id="cp" name="cp">
+      <option value="0">Type 0</option>
+      <option value="1">Type 1</option>
+      <option value="2">Type 2</option>
+      <option value="3">Type 3</option>
     </select><br /><br />
-    <label for="height">Height (in cm):</label>
-    <input type="text" id="height" name="height" value="{{ request.form.height }}" /><br /><br />
-    <label for="weight">Weight (in kg):</label>
-    <input type="text" id="weight" name="weight" value="{{ request.form.weight }}" /><br /><br />
-    <label for="systolic_bp">Systolic Blood Pressure:</label>
-    <input type="text" id="systolic_bp" name="systolic_bp" value="{{ request.form.systolic_bp }}" /><br /><br />
-    <label for="diastolic_bp">Diastolic Blood Pressure:</label>
-    <input type="text" id="diastolic_bp" name="diastolic_bp" value="{{ request.form.diastolic_bp }}" /><br /><br />
+    
+    <label for="trestbps">Resting Blood Pressure:</label>
+    <input type="text" id="trestbps" name="trestbps" value="{{ request.form.trestbps }}" /><br /><br />
+    
+    <label for="chol">Cholesterol:</label>
+    <input type="text" id="chol" name="chol" value="{{ request.form.chol }}" /><br /><br />
+    
+    <label for="fbs">Fasting Blood Sugar:</label>
+    <select id="fbs" name="fbs">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br /><br />
+    
+    <label for="thalach">Max Heart Rate Achieved:</label>
+    <input type="text" id="thalach" name="thalach" value="{{ request.form.thalach }}" /><br /><br />
+    
+    <label for="exang">Exercise Induced Angina:</label>
+    <select id="exang" name="exang">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select><br /><br />
+    
+    <label for="oldpeak">ST Depression Induced by Exercise:</label>
+    <input type="text" id="oldpeak" name="oldpeak" value="{{ request.form.oldpeak }}" /><br /><br />
+    
+    <label for="thal">Thalassemia Type:</label>
+    <select id="thal" name="thal">
+      <option value="0">Type 0</option>
+      <option value="1">Type 1</option>
+      <option value="2">Type 2</option>
+      <option value="3">Type 3</option>
+    </select><br /><br />
     <input type="submit" value="Submit" style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer;">
     </form>
     

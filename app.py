@@ -40,8 +40,14 @@ def home():
         hypertension_risk = detect_hypertension(age, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal)
 
         # Store user input and hypertension risk in the database
-        db.execute("INSERT INTO users (age, gender, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal, hypertension_risk) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                   age, gender, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal, hypertension_risk, height, weight)
+        db.execute("""
+    INSERT INTO users (age, gender, cp, trestbps, chol, fbs, thalach, exang, oldpeak, thal, hypertension_risk, height, weight)
+    VALUES (:age, :gender, :cp, :trestbps, :chol, :fbs, :thalach, :exang, :oldpeak, :thal, :hypertension_risk, :height, :weight)
+    """,
+    {"age": age, "gender": gender, "cp": cp, "trestbps": trestbps, "chol": chol,
+     "fbs": fbs, "thalach": thalach, "exang": exang, "oldpeak": oldpeak, "thal": thal,
+     "hypertension_risk": hypertension_risk, "height": height, "weight": weight}
+)
         db.commit()
 
         # Redirect to results page
