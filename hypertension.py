@@ -1,4 +1,3 @@
-import pandas as pd
 import secrets
 from flask import Flask, render_template, request, redirect, url_for, flash
 
@@ -26,23 +25,6 @@ def calculate_bmi_category(height, weight):
     return bmi_category
 
 
-
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    if request.method == 'POST':
-        age = int(request.form['age'])
-        gender = request.form['gender']
-        height = float(request.form['height'])
-        weight = float(request.form['weight'])
-        med_history = request.form['med_history']
-        systolic_bp = int(request.form['systolic_bp'])
-        diastolic_bp = int(request.form['diastolic_bp'])
-
-        bmi_category = calculate_bmi_category(height, weight)
-
-        return render_template('results.html',bmi_category=bmi_category)
-
-    return render_template('index.html')
 
 
 if __name__ == '__main__':

@@ -124,30 +124,40 @@
 <body>
   <div class="container">
     <h1>Hypertension Detection</h1>
-    <p>
-      The following individuals are at risk of hypertension based on their
-      health parameters:
-    </p>
-    <table>
-      <tr>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Medical History</th>
-        <th>Systolic BP</th>
-        <th>Diastolic BP</th>
-        <th>Heart Rate</th>
-        </tr>
-        {% for person in hypertension %}
-        <tr>
-        <td>{{ person.age }}</td>
-        <td>{{ "Male" if person.gender == 0 else "Female" }}</td>
-        <td>{{ "Yes" if person.med_history >= 2 else "No" }}</td>
-        <td>{{ person.systolic_bp }}</td>
-        <td>{{ person.diastolic_bp }}</td>
-        <td>{{ person.heart_rate }}</td>
-        </tr>
-        {% endfor %}
-        </table>  <h2>Hypertension Risk Factors</h2>
+        <p>
+          The following individuals are at risk of hypertension based on their
+          health parameters:
+        </p>
+        <table>
+          <tr>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Chest Pain</th>
+            <th>Resting BP</th>
+            <th>Cholesterol</th>
+            <th>Fasting Blood Sugar</th>
+            <th>Max Heart Rate</th>
+            <th>Exercise Induced Angina</th>
+            <th>ST Depression</th>
+            <th>Thal</th>
+          </tr>
+          {% for person in hypertensions %}
+          <tr>
+            <td>{{ person.age }}</td>
+            <td>{{ "Male" if person.sex == 0 else "Female" }}</td>
+            <td>{{ person.cp }}</td>
+            <td>{{ person.trestbps }}</td>
+            <td>{{ person.chol }}</td>
+            <td>{{ "Yes" if person.fbs == 1 else "No" }}</td>
+            <td>{{ person.thalach }}</td>
+            <td>{{ "Yes" if person.exang == 1 else "No" }}</td>
+            <td>{{ person.oldpeak }}</td>
+            <td>{{ person.thal }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+
+        <h2>Hypertension Risk Factors</h2>
         <p>
           Hypertension is a condition characterized by elevated blood pressure. The
           following factors contribute to hypertension risk:
@@ -155,11 +165,16 @@
         <ul>
           <li>Age</li>
           <li>Gender</li>
-          <li>Medical History</li>
-          <li>Blood Pressure</li>
-          <li>Heart Rate</li>
+          <li>Chest Pain</li>
+          <li>Resting Blood Pressure</li>
+          <li>Cholesterol Level</li>
+          <li>Fasting Blood Sugar</li>
+          <li>Max Heart Rate</li>
+          <li>Exercise Induced Angina</li>
+          <li>ST Depression</li>
+          <li>Thal</li>
         </ul>
-        
+       
         <h2>Reducing Hypertension Risk</h2>
         <p>
           There are several steps that can be taken to reduce hypertension risk,

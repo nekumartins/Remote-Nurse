@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from cs50 import SQL
-from hypertension import detect_hypertension, calculate_hypertension_risk
+from hypertension import calculate_bmi_category
 import pandas as pd 
 import secrets
 
@@ -51,7 +51,13 @@ def home():
 
 @app.route("/results")
 def results():
-    ...
+    if request.method == 'POST':
+        height = float(request.form['height'])
+        weight = float(request.form['weight'])
+
+    bmi_category = calculate_bmi_category(height, weight)
+
+    return render_template('results.html',bmi_category=bmi_category)
 
 
 
@@ -59,14 +65,26 @@ def results():
 
 @app.route('/')
 def index():
+    hypertension = pd.read_csv('hypertension_data.csv') 
+
+
+    import joblib
+    model = joblib.load('./models/hypertension_model.pkl') 
+
+    # Use the model to predict hypertension
+    features = ['age', 'cp', 'trestbps', 'chol', 'fbs', 'thalach', 'exang', 'oldpeak', 'thal']
+    X = hypertension[features].values
+    predictions = model.predict(X)
+
     # Identify individuals at risk of hypertension
-    hypertension = []
+    hypertensions = []
 
-    for i in range(n_individuals):
-        if systolic_bp[i] > hypertension_risk_threshold or diastolic_bp[i] > hypertension_risk_threshold:
-            hypertension.append({"age": age[i], "gender": gender[i], "med_history": med_history[i], "systolic_bp": systolic_bp[i], "diastolic_bp": diastolic_bp[i], "heart_rate": heart_rate[i]})
+    for i in range(len(hypertension)):
+        if predictions[i] == 1: 
+            person = hypertension.iloc[i]  # Access the row using iloc
+            hypertensions.append({"age": person['age'], "sex": person['sex'], "cp": person['cp'], "trestbps": person['trestbps'], "chol": person['chol'], "thalach": person['thalach']})
 
-    return render_template("index.html", hypertension=hypertension)
+    return render_template("index.html", hypertensions=hypertensions)      
 
 
 
